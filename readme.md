@@ -1,4 +1,4 @@
-# Code solutions to problems on HackerRank**
+# Code solutions to problems on HackerRank
 
 1. November 30th, 2017
 	- 00 - Thu, Nov 30, 2017, 03:20 PM - Hello World program
