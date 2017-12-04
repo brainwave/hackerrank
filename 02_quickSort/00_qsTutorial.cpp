@@ -1,47 +1,76 @@
 //Partitioned with last element as pivot
 //
-#include <cmath>
-#include <cstdio>
 #include <vector>
 #include <iostream>
-#include <algorithm>
 
 using namespace std;
 
-struct Player {
-    string name;
-    int score;
-}; 
+// A utility function to swap two elements
+void swap(int& a, int& b)
+{
+    int t = a;
+    a = b;
+    b = t;
+}
 
-class Checker {
 
+int partition( vector<int>& arr, int low, int high) {
 
+	int pivot = arr[high];
+	int i = low-1;
 
-};
+	for ( int j = low; j < high; j++ ) {
+	
+		if ( arr[j] <= pivot ) {
+			
+			i++;
+			swap( arr[i], arr[j] );
 
-vector<Player> comparator(vector<Player> players) {
+		}
+	
+	}
 
-return players;
+	swap( arr[i+1], arr[high] );
+	return i+1;
 
 }
 
+void quickSort( vector<int>& arr, int low, int high) {
+	
+	//as long as array size is more than one, partition and sort
+
+	if ( low < high ) {
+
+		int p = partition(  arr, low, high);
+
+		quickSort( arr, low, p-1 ); 
+		
+		quickSort ( arr, p+1, high);
+	
+	}
+
+}
+
+
+ ;
 int main() {
     
-    int n;
+    int n, input, count=0;
     cin >> n;
-    vector< Player > players;
-    string name;
-    int score;
-    for(int i = 0; i < n; i++){
-        cin >> name >> score;
-        Player p1;
-        p1.name = name, p1.score = score;
-        players.push_back(p1);
+
+    vector<int> arr(n);
+
+    while ( count < n ) {
+	    cin>>input;
+	    arr[count++] = input;
     }
-    
-    vector<Player > answer = comparator(players);
-    for(int i = 0; i < answer.size(); i++) {
-        cout << answer[i].name << " " << answer[i].score << endl;
-    }
-    return 0;
+
+    count = 0;
+
+    quickSort( arr, 0, n-1);
+
+    while ( count < n )
+	    cout<<arr[count++];
+
+   return 0;
 }
