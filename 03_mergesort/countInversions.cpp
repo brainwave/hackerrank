@@ -1,66 +1,85 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-long countSplitInversions( int arr[], int leftLower, int middle, int rightUpper) {
-    long result = 0;
-    
-    int numLeft = middle - leftLower + 1;
-    int numRight = rightUpper - middle;
-    
-    int tempArray[numLeft + numRight], i = 0, k = 0;
-    
-    while ( i <= numLeft && i <= numRight) {
-        
-        if ( arr[i] <= arr [ middle + i + 1 ])
-            tempArray[k++] = arr[i++];
-        else {
-            tempArray[k++] = arr[ middle + i + 1 ];        
-            result += middle - i + 1;
-        }
-    }
-    
-    while ( i < numLeft )
-        tempArray[k++] = arr[i++];
-    while ( i < numRight )
-        tempArray[k++] = arr[i++];
-    
-    arr = tempArray;
-    
-    return result;
-    
-}
-
-long countInversions(int arr[], int leftLower, int rightUpper ) {
-    
-    if ( rightUpper <= leftLower )
-        return 0; //Done when array size <= 1
-    
-    else {
-        
-        int middle = leftLower + (rightUpper - leftLower) /2;
-        long result = countInversions ( arr, leftLower, middle);
-        result += countInversions ( arr, middle+1, rightUpper);
-        result += countSplitInversions( arr, leftLower, middle, rightUpper);
-        
-        return result;
-    }
-    
-}
+long countInversions( int[], int, int);
+long countSplitInversions( int[], int, int, int);
 
 int main() {
-    int t;
-    cin >> t;
-    for(int a0 = 0; a0 < t; a0++){
-        int n;
-        cin >> n;
-        int arr[n];
-        for(int arr_i = 0; arr_i < n; arr_i++){
-           cin >> arr[arr_i];
-        }
-       // long result = countInversions(arr, 0, n-1 );
-        cout << result << endl;
-    }
-    return 0;
+
+	int d; 
+	cin>>d;
+	
+	for ( int i = 0; i < d; i++ ) {
+
+		int n; 
+		cin >> n;
+
+		int arr[n];
+
+		for ( int j = 0; j < n; j++ )
+			cin>>arr[j];
+
+		long result = countInversions(arr, 0, n-1);
+	
+		for ( int j = 0; j < n; j++ )
+			cout<<arr[j]<<" ";
+		
+		cout<< "\nResult: " <<result << endl;
+	}
+		
+	return 0;
 }
 
+long countInversions( int arr[], int low, int high) {
+
+	if ( low >= high) 
+		return 0;
+	
+	else {
+	
+		int middle = low  + (high - low)/2;
+		
+		long result = countInversions( arr, low, middle);
+		result += countInversions(arr, middle+1, high);
+
+		result+= countSplitInversions ( arr, low, middle, high);
+		return result;
+	}
+
+}
+
+long countSplitInversions( int arr[], int low, int middle, int high) {
+
+	long count = 0;
+	
+	//Create tempororary array to store sorted values
+	//Have index for start of left and right subparts
+	int tempArray[high - low + 1];
+	int k = 0, i = low, j = middle + 1;
+
+	//while index i is lower than ends of both left and right subarrays
+	while ( i <= middle && j <= high) {
+
+		if ( arr[i] <= arr[j] )
+			tempArray[k++] = arr[i++];
+
+		else {
+			tempArray[k++] = arr[j++];
+			count += middle - i + 1;		
+		}
+	}	
+
+	while ( i <= middle )
+		tempArray[k++] = arr[i++];
+
+	while ( j <= high )
+		tempArray[k++] = arr[j++];
+
+	for ( int i = low; i <= high; i++ ) 
+		arr[i] = tempArray[ i - low ];
+
+	return count;
+}
