@@ -58,7 +58,7 @@ int main() {
         for(int arr_i = 0; arr_i < n; arr_i++){
            cin >> arr[arr_i];
         }
-        long result = countInversions(arr, 0, n-1 );
+       // long result = countInversions(arr, 0, n-1 );
         cout << result << endl;
     }
     return 0;
