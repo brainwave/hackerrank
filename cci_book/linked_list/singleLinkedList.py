@@ -60,8 +60,37 @@ class LinkedList:
         n = self.head
 
         while n is not None:
-            print(n.data)
+            print(n.data,end='')
             n = n.next
 
-    
+        print() 
+
+    def nthToLast(self,n):
+        
+        node = self.head
+        numElements = 0
+
+        while node is not None:
+           numElements+=1 
+           node = node.next
+
+        if n > numElements:
+            print("Illogical request")
+            return
+
+        node = self.head
+       
+        for curElement in range(1,numElements-n+1):
+            node = node.next
+        
+        return node.data
+
+    def deleteSingleNode(self, node):
+
+        if node.next is not None:
+            node.data = node.next.data
+            node.next = node.next.next
+
+        else:
+            node = None
 
